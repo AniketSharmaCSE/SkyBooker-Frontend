@@ -1,0 +1,55 @@
+<div class="page-header">
+  <div class="container"><h1><img src="/assets/svgs/hair-salon-seat-svgrepo-com.svg" class="sky-icon" alt="seat"> Generate Seat Map</h1></div>
+</div>
+
+<div class="container section-padding" style="padding-top: 0;">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
+      <div *ngIf="message" class="sky-alert sky-alert-success mb-3"><img src="/assets/svgs/compass-svgrepo-com.svg" class="sky-icon" alt="check"> {{ message }}</div>
+      <div *ngIf="error" class="sky-alert sky-alert-error mb-3"><img src="/assets/svgs/life-buoy-svgrepo-com.svg" class="sky-icon" alt="warning"> {{ error }}</div>
+
+      <div class="sky-card fade-in-up">
+        <h5 class="fw-bold mb-3">Generate seats for a flight</h5>
+        <p class="text-muted small mb-4">Enter the Flight ID (e.g. BX121) and optionally split the total seats by cabin class.</p>
+
+        <form (ngSubmit)="generate()">
+          <div class="mb-4">
+            <label class="sky-label">Flight ID</label>
+            <input type="text" class="sky-input" [(ngModel)]="flightId" name="flightId" placeholder="e.g. BX121" required>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-6 mb-4">
+              <label class="sky-label">Business Seats</label>
+              <input type="number" min="0" class="sky-input" [(ngModel)]="businessSeats" name="businessSeats" placeholder="Auto">
+            </div>
+            <div class="col-6 mb-4">
+              <label class="sky-label">Premium Econ</label>
+              <input type="number" min="0" class="sky-input" [(ngModel)]="premiumEconomySeats" name="premiumEconomySeats" placeholder="Auto">
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="sky-label">Economy Seats</label>
+            <input type="number" min="0" class="sky-input" [(ngModel)]="economySeats" name="economySeats" placeholder="Auto">
+          </div>
+
+          <div class="mb-4">
+            <label class="sky-label">Seats to Block (Comma separated)</label>
+            <input type="text" class="sky-input" [(ngModel)]="blockedSeatsInput" name="blockedSeatsInput" placeholder="e.g. 1A, 2B, 3C">
+            <p class="text-muted small mt-1">These seats will be marked as 'Blocked' immediately.</p>
+          </div>
+
+          <button type="submit" class="btn-sky w-100 py-3 mb-3" [disabled]="loading || !isFlightIdValid">
+            {{ loading ? 'Generating...' : 'Generate Seats ->' }}
+          </button>
+          
+          <button type="button" class="btn-sky-outline w-100 py-3" (click)="viewMap()" [disabled]="!isFlightIdValid">
+            View/Manage Existing Seat Map
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

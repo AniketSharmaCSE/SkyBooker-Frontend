@@ -1,0 +1,53 @@
+.page-header-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  object-fit: contain;
+}
+
+.notif-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &.notif-unread {
+    border-left: 3px solid var(--sky-orange);
+    background: rgba(255, 107, 0, 0.03);
+  }
+}
+
+.notif-icon-wrap {
+  flex-shrink: 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: rgba(255, 107, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-icon-img {
+  width: 1.1rem;
+  height: 1.1rem;
+  object-fit: contain;
+}
+
+.unread-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sky-orange);
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
+
+.notif-title {
+  font-size: 0.92rem;
+  color: var(--sky-text);
+}
+
+.notif-message {
+  font-size: 0.82rem;
+}

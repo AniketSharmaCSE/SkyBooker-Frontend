@@ -1,0 +1,76 @@
+<div class="page-header">
+  <div class="container">
+    <h1>
+      <img src="assets/svgs/compass-svgrepo-com.svg" style="width:1.6rem;height:1.6rem;object-fit:contain;vertical-align:middle;margin-right:0.5rem;" alt="dashboard">
+      Staff Dashboard
+    </h1>
+  </div>
+</div>
+
+<div class="container section-padding" style="padding-top: 0;">
+  <!-- Stats -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-4 fade-in-up stagger-1">
+      <div class="sky-card stat-card">
+        <div class="stat-icon-bg">
+          <img src="assets/svgs/travel-holiday-vacation-2-svgrepo-com.svg" class="sky-icon" alt="flight">
+        </div>
+        <div class="stat-number">{{ totalFlights }}</div>
+        <div class="stat-title">Total Flights</div>
+      </div>
+    </div>
+    <div class="col-md-4 fade-in-up stagger-2">
+      <div class="sky-card stat-card">
+        <div class="stat-icon-bg">
+          <img src="assets/svgs/train-ticket-svgrepo-com.svg" class="sky-icon" alt="ticket">
+        </div>
+        <div class="stat-number">{{ totalBookings }}</div>
+        <div class="stat-title">Total Bookings</div>
+      </div>
+    </div>
+    <div class="col-md-4 fade-in-up stagger-3">
+      <div class="sky-card stat-card">
+        <div class="stat-icon-bg">
+          <svg class="sky-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="stat-number">{{ totalPassengers }}</div>
+        <div class="stat-title">Total Passengers</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <h5 class="fw-bold mb-3">Quick Actions</h5>
+  <div class="row g-3">
+    <div class="col-md col-6 fade-in-up stagger-1">
+      <a routerLink="/flights" class="action-card sky-card text-center text-decoration-none">
+        <div class="action-icon"><img src="assets/svgs/SearchFlight.svg" class="sky-icon-lg" alt="flights"></div>
+        <div class="action-label">All Flights</div>
+      </a>
+    </div>
+    <div class="col-md col-6 fade-in-up stagger-2">
+      <a routerLink="/staff/add-flight" class="action-card sky-card text-center text-decoration-none">
+        <div class="action-icon"><img src="assets/svgs/travel-holiday-vacation-28-svgrepo-com.svg" class="sky-icon-lg" alt="add flight"></div>
+        <div class="action-label">Add Flight</div>
+      </a>
+    </div>
+    <div class="col-md col-6 fade-in-up stagger-3">
+      <a routerLink="/staff/generate-seats" class="action-card sky-card text-center text-decoration-none">
+        <div class="action-icon"><img src="/assets/svgs/hair-salon-seat-svgrepo-com.svg" class="sky-icon-lg" alt="seats"></div>
+        <div class="action-label">Generate Seats</div>
+      </a>
+    </div>
+    <div class="col-md col-6 fade-in-up stagger-4">
+      <a routerLink="/staff/bookings" class="action-card sky-card text-center text-decoration-none">
+        <div class="action-icon"><img src="assets/svgs/train-ticket-svgrepo-com.svg" class="sky-icon-lg" alt="bookings"></div>
+        <div class="action-label">All Bookings</div>
+      </a>
+    </div>
+    <div class="col-md col-6 fade-in-up stagger-5">
+      <a routerLink="/staff/passengers" class="action-card sky-card text-center text-decoration-none">
+        <div class="action-icon"><img src="assets/svgs/suitcase-svgrepo-com (1).svg" class="sky-icon-lg" alt="passengers"></div>
+        <div class="action-label">Passengers</div>
+      </a>
+    </div>
+  </div>
+</div>

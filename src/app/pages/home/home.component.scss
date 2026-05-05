@@ -1,0 +1,125 @@
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  padding-top: 56px;
+  background: #ffffff;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 107, 0, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 140, 51, 0.04) 0%, transparent 50%);
+  z-index: 0;
+}
+
+.hero-content { z-index: 1; }
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+  color: var(--sky-text);
+
+  @media (max-width: 768px) {
+    font-size: 2.2rem;
+  }
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  color: var(--sky-muted);
+  max-width: 440px;
+  line-height: 1.7;
+}
+
+.search-card {
+  max-width: 480px;
+  margin-left: auto;
+
+  @media (max-width: 991px) {
+    margin: 2rem auto 0;
+    max-width: 100%;
+  }
+}
+
+.search-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-card-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+}
+
+// Input with left icon
+.input-with-icon {
+  position: relative;
+}
+
+.field-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.sky-input.has-field-icon {
+  padding-left: 2.4rem;
+}
+
+.btn-svg-icon {
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  vertical-align: middle;
+}
+
+// Destinations
+.dest-card {
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: var(--sky-orange);
+    box-shadow: 0 8px 25px rgba(255, 107, 0, 0.1);
+  }
+}
+
+.dest-emoji {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dest-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  object-fit: contain;
+}
+
+.dest-city {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--sky-text);
+}
+
+.dest-code {
+  font-size: 0.75rem;
+  color: var(--sky-muted);
+}

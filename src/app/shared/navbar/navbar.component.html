@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top sky-navbar">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/">
+      <span class="brand-icon"><img src="assets/svgs/Logo.png" class="brand-logo" alt="SkyBooker logo"></span>
+      <span class="brand-text">SkyBooker</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+
+        <!-- Guest links -->
+        <ng-container *ngIf="!isLoggedIn">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/flights" routerLinkActive="active">Flights</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-light btn-sm px-3 ms-2" routerLink="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary btn-sm px-3 ms-2" routerLink="/register">Register</a>
+          </li>
+        </ng-container>
+
+        <!-- Passenger links -->
+        <ng-container *ngIf="isLoggedIn && role === 'PASSENGER'">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/flights" routerLinkActive="active">Flights</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/my-bookings" routerLinkActive="active">My Bookings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link position-relative notif-link" routerLink="/notifications" routerLinkActive="active" title="Notifications">
+              <img src="assets/svgs/notification.svg" class="nav-svg-icon" alt="notifications">
+              <span *ngIf="unreadCount > 0" class="badge-notif">{{ unreadCount }}</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              {{ fullName }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+              <li><a class="dropdown-item" routerLink="/profile">My Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" (click)="logout()" routerLink="/">Logout</a></li>
+            </ul>
+          </li>
+        </ng-container>
+
+        <!-- Staff links -->
+        <ng-container *ngIf="isLoggedIn && role === 'STAFF'">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/staff" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/staff/add-flight" routerLinkActive="active">Add Flight</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/staff/generate-seats" routerLinkActive="active">Seats</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/staff/bookings" routerLinkActive="active">Bookings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/staff/passengers" routerLinkActive="active">Passengers</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              {{ fullName }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+              <li><a class="dropdown-item text-danger" (click)="logout()" routerLink="/">Logout</a></li>
+            </ul>
+          </li>
+        </ng-container>
+
+      </ul>
+    </div>
+  </div>
+</nav>

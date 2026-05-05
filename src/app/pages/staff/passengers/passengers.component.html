@@ -1,0 +1,61 @@
+<div class="page-header">
+  <div class="container"><h1><img src="/assets/svgs/suitcase-svgrepo-com (1).svg" class="sky-icon" alt="user"> Passengers</h1></div>
+</div>
+
+<div class="container section-padding" style="padding-top: 0;">
+  <div *ngIf="loading" class="text-center py-5"><div class="sky-spinner"></div></div>
+
+  <!-- Detail overlay -->
+  <div *ngIf="selectedPassenger" class="detail-overlay" (click)="closeDetails()">
+    <div class="detail-modal sky-card-glass fade-in-up" (click)="$event.stopPropagation()">
+      <div class="text-center mb-3">
+        <div class="passenger-avatar">{{ (selectedPassenger.fullName || 'U')[0] }}</div>
+        <h4 class="fw-bold mt-2">{{ selectedPassenger.fullName }}</h4>
+        <p class="text-muted small">{{ selectedPassenger.email }}</p>
+      </div>
+      <div class="info-row"><span class="info-label">Passenger ID</span><span class="info-value">{{ formatPassengerId(selectedPassenger.id) }}</span></div>
+      <div class="info-row"><span class="info-label">Phone</span><span class="info-value">{{ selectedPassenger.phoneNumber || '—' }}</span></div>
+      <div class="info-row"><span class="info-label">DOB</span><span class="info-value">{{ selectedPassenger.dateOfBirth || '—' }}</span></div>
+      <div class="info-row"><span class="info-label">Passport</span><span class="info-value">{{ selectedPassenger.passportNumber || '—' }}</span></div>
+      <div class="info-row"><span class="info-label">Nationality</span><span class="info-value">{{ selectedPassenger.nationality || '—' }}</span></div>
+      <button class="btn-sky-outline w-100 mt-4" (click)="closeDetails()">Close</button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading" class="sky-card fade-in-up">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold mb-0">All Passengers</h5>
+      <span class="text-muted small">Total: {{ totalCount }}</span>
+    </div>
+    <div style="overflow-x: auto;">
+      <table class="sky-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Nationality</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of passengers">
+            <td>{{ formatPassengerId(p.id) }}</td>
+            <td><strong>{{ p.fullName }}</strong></td>
+            <td>{{ p.email }}</td>
+            <td>{{ p.phoneNumber || '—' }}</td>
+            <td>{{ p.nationality || '—' }}</td>
+            <td>
+              <button class="btn-sky-outline" style="padding: 0.3rem 0.8rem; font-size: 0.78rem;"
+                      (click)="viewDetails(p.userId)">View</button>
+            </td>
+          </tr>
+          <tr *ngIf="passengers.length === 0">
+            <td colspan="5" class="text-center text-muted py-4">No passengers found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
