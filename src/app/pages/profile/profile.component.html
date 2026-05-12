@@ -1,0 +1,61 @@
+<div class="page-header">
+  <div class="container">
+    <h1><svg style="width:1.6rem;height:1.6rem;vertical-align:middle;margin-right:0.5rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Profile</h1>
+  </div>
+</div>
+
+<div class="container section-padding" style="padding-top: 0;">
+  <div *ngIf="loading" class="text-center py-5"><div class="sky-spinner"></div></div>
+
+  <div *ngIf="!loading" class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div *ngIf="message" class="sky-alert sky-alert-success mb-3"><svg class="sky-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> {{ message }}</div>
+      <div *ngIf="error" class="sky-alert sky-alert-error mb-3"><svg class="sky-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> {{ error }}</div>
+
+      <!-- View Mode -->
+      <div *ngIf="profile && !isEditing" class="sky-card fade-in-up">
+        <div class="profile-header text-center mb-4">
+          <div class="profile-avatar">{{ (profile.fullName || 'U')[0] }}</div>
+          <h4 class="fw-bold mt-2 mb-0">{{ profile.fullName }}</h4>
+          <p class="text-muted small">{{ profile.email }}</p>
+        </div>
+
+        <div class="info-row"><span class="info-label">Phone</span><span class="info-value">{{ profile.phoneNumber || '—' }}</span></div>
+        <div class="info-row"><span class="info-label">DOB</span><span class="info-value">{{ profile.dateOfBirth || '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Passport</span><span class="info-value">{{ profile.passportNumber || '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Nationality</span><span class="info-value">{{ profile.nationality || '—' }}</span></div>
+
+        <button class="btn-sky w-100 mt-4" (click)="isEditing = true">Edit Profile</button>
+      </div>
+
+      <!-- Edit Mode -->
+      <div *ngIf="isEditing" class="sky-card fade-in-up">
+        <h5 class="fw-bold mb-4">{{ profile ? 'Edit Profile' : 'Complete Your Profile' }}</h5>
+        <form (ngSubmit)="saveProfile()">
+          <div class="mb-3">
+            <label class="sky-label">Phone Number</label>
+            <input type="text" class="sky-input" [(ngModel)]="form.phoneNumber" name="phone" placeholder="+91 9876543210">
+          </div>
+          <div class="mb-3">
+            <label class="sky-label">Date of Birth</label>
+            <input type="date" class="sky-input" [(ngModel)]="form.dateOfBirth" name="dob">
+          </div>
+          <div class="mb-3">
+            <label class="sky-label">Passport Number</label>
+            <input type="text" class="sky-input" [(ngModel)]="form.passportNumber" name="passport" placeholder="A12345678">
+          </div>
+          <div class="mb-4">
+            <label class="sky-label">Nationality</label>
+            <input type="text" class="sky-input" [(ngModel)]="form.nationality" name="nationality" placeholder="Indian">
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn-sky flex-fill" [disabled]="saving">
+              {{ saving ? 'Saving...' : 'Save Profile' }}
+            </button>
+            <button *ngIf="profile" type="button" class="btn-sky-outline" (click)="isEditing = false">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

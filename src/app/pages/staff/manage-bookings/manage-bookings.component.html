@@ -1,0 +1,55 @@
+<div class="page-header">
+  <div class="container"><h1><img src="/assets/svgs/train-ticket-svgrepo-com.svg" class="sky-icon" alt="clipboard"> All Bookings</h1></div>
+</div>
+
+<div class="container section-padding" style="padding-top: 0;">
+  <!-- Filter -->
+  <div class="sky-card mb-4 fade-in-up">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-4">
+        <label class="sky-label">Filter by Flight ID</label>
+        <input type="number" class="sky-input" [(ngModel)]="flightIdFilter" placeholder="All flights">
+      </div>
+      <div class="col-md-2">
+        <button class="btn-sky w-100" (click)="load()">Filter</button>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <span class="text-muted">Total: <strong>{{ totalCount }}</strong> bookings</span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center py-5"><div class="sky-spinner"></div></div>
+
+  <div *ngIf="!loading" class="sky-card fade-in-up" style="overflow-x: auto;">
+    <table class="sky-table">
+      <thead>
+        <tr>
+          <th>PNR</th>
+          <th>Passenger ID</th>
+          <th>Flight ID</th>
+          <th>Seat</th>
+          <th>Status</th>
+          <th>Booked</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let b of bookings">
+          <td><strong style="color: var(--sky-cyan);">{{ b.pnr }}</strong></td>
+          <td>{{ formatPassengerId(b.passengerId) }}</td>
+          <td>{{ formatFlightId(b.flightId) }}</td>
+          <td>{{ b.seatNumber }}</td>
+          <td>
+            <span class="badge-sky" [ngClass]="b.status === 'Confirmed' ? 'badge-confirmed' : 'badge-cancelled'">
+              {{ b.status }}
+            </span>
+          </td>
+          <td>{{ formatDate(b.bookedAt) }}</td>
+        </tr>
+        <tr *ngIf="bookings.length === 0">
+          <td colspan="6" class="text-center text-muted py-4">No bookings found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

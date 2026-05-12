@@ -1,0 +1,62 @@
+<section class="hero-section">
+  <div class="hero-bg"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center hero-grid">
+      <div class="col-lg-6 hero-content fade-in-up">
+        <div class="hero-kicker">Airline Ticket Booking</div>
+        <h1 class="hero-title">
+          <span>Search. Book.</span>
+          <span class="gradient-text">Fly.</span>
+        </h1>
+        <p class="hero-subtitle">Find available flights, choose a seat, and complete your booking in one place.</p>
+      </div>
+
+      <div class="col-lg-6 fade-in-up stagger-2">
+        <datalist id="city-list">
+          <option *ngFor="let c of cities" [value]="c.name">{{ c.code }} - {{ c.name }}</option>
+        </datalist>
+
+        <div class="search-card sky-card-glass">
+          <h3 class="search-title">Find Your Flight</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="sky-label">From</label>
+              <input type="text" class="sky-input" placeholder="e.g. Mumbai" [(ngModel)]="origin" list="city-list" id="search-origin">
+            </div>
+            <div class="col-md-6">
+              <label class="sky-label">To</label>
+              <input type="text" class="sky-input" placeholder="e.g. Delhi" [(ngModel)]="destination" list="city-list" id="search-destination">
+            </div>
+            <div class="col-12">
+              <label class="sky-label">Travel Date</label>
+              <input type="date" class="sky-input" [(ngModel)]="date" id="search-date">
+            </div>
+            <div class="col-12">
+              <button class="btn-sky hero-search-button" (click)="searchFlights()" id="btn-search-flights">
+                Search Flights
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-padding destinations-section">
+  <div class="container">
+    <h2 class="text-center mb-2 fw-bold">Popular <span class="gradient-text">Destinations</span></h2>
+    <p class="text-center text-muted mb-5">Quick links for common destinations</p>
+    <div class="row g-4">
+      <div *ngFor="let dest of destinations" class="col-6 col-md-4 col-lg-2">
+        <div class="dest-card sky-card text-center" (click)="destination = dest.name; searchFlights()">
+          <div class="dest-emoji">
+            <img src="assets/svgs/map-marker-svgrepo-com.svg" class="dest-icon" alt="destination">
+          </div>
+          <div class="dest-city">{{ dest.name }}</div>
+          <div class="dest-code text-muted small">{{ dest.code }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

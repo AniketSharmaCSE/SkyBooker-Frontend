@@ -1,0 +1,63 @@
+<div class="page-header">
+  <div class="container"><h1><img src="/assets/svgs/travel-holiday-vacation-28-svgrepo-com.svg" class="sky-icon" alt="flight"> Add New Flight</h1></div>
+</div>
+
+<div class="container section-padding" style="padding-top: 0;">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div *ngIf="message" class="sky-alert sky-alert-success mb-3"><img src="/assets/svgs/compass-svgrepo-com.svg" class="sky-icon" alt="check"> {{ message }}</div>
+      <div *ngIf="error" class="sky-alert sky-alert-error mb-3"><img src="/assets/svgs/life-buoy-svgrepo-com.svg" class="sky-icon" alt="warning"> {{ error }}</div>
+
+      <div class="sky-card fade-in-up">
+        <form (ngSubmit)="submit()">
+          <div class="row g-3">
+            <datalist id="city-list">
+              <option *ngFor="let c of cities" [value]="c.name">{{ c.code }} - {{ c.name }}</option>
+            </datalist>
+            <div class="col-12">
+              <label class="sky-label">Flight Number</label>
+              <input type="text" class="sky-input" [(ngModel)]="form.flightNumber" name="flightNumber" placeholder="e.g. SK-101" required>
+            </div>
+            <div class="col-md-6">
+              <label class="sky-label">Origin</label>
+              <input type="text" class="sky-input" [(ngModel)]="form.origin" name="origin" list="city-list" placeholder="e.g. Mumbai" required>
+            </div>
+            <div class="col-md-6">
+              <label class="sky-label">Destination</label>
+              <input type="text" class="sky-input" [(ngModel)]="form.destination" name="destination" list="city-list" placeholder="e.g. Delhi" required>
+            </div>
+            <div class="col-md-6">
+              <label class="sky-label">Departure Time</label>
+              <input type="datetime-local" class="sky-input" [(ngModel)]="form.departureTime" name="departureTime" required>
+            </div>
+            <div class="col-md-6">
+              <label class="sky-label">Arrival Time</label>
+              <input type="datetime-local" class="sky-input" [(ngModel)]="form.arrivalTime" name="arrivalTime" required>
+            </div>
+            <div class="col-md-6">
+              <label class="sky-label">Airline Name</label>
+              <input type="text" class="sky-input" [(ngModel)]="form.airline" name="airline" placeholder="e.g. SkyBooker Express" required>
+            </div>
+            <div class="col-md-6">
+              <label class="sky-label">Comfort Premium (Rs)</label>
+              <input type="number" min="0" class="sky-input" [(ngModel)]="form.comfortPremium" name="comfortPremium" placeholder="100" required>
+            </div>
+            <div class="col-md-6">
+              <label class="sky-label">Price (Rs)</label>
+              <input type="number" min="1" class="sky-input" [(ngModel)]="form.price" name="price" placeholder="4500" required>
+            </div>
+            <div class="col-md-6">
+              <label class="sky-label">Total Seats</label>
+              <input type="number" min="1" step="1" class="sky-input" [(ngModel)]="form.totalSeats" name="totalSeats" placeholder="180" required>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn-sky w-100 py-3" [disabled]="loading">
+                {{ loading ? 'Adding...' : 'Add Flight ->' }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<div class="page-header">
+  <div class="container">
+    <h1><img src="assets/svgs/train-ticket-svgrepo-com.svg" class="page-header-icon" alt="ticket"> My Bookings</h1>
+  </div>
+</div>
+
+<div class="container section-padding" style="padding-top: 0;">
+  <!-- PNR Search -->
+  <div class="sky-card mb-4 fade-in-up">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-9">
+        <label class="sky-label">Search by PNR</label>
+        <input type="text" class="sky-input" placeholder="Enter your PNR code"
+               [(ngModel)]="pnrSearch" (keyup.enter)="searchByPnr()">
+      </div>
+      <div class="col-md-3">
+        <button class="btn-sky w-100" (click)="searchByPnr()">Search</button>
+      </div>
+    </div>
+    <div *ngIf="searchError" class="sky-alert sky-alert-error mt-3"><svg class="sky-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> {{ searchError }}</div>
+    <div *ngIf="searchResult" class="sky-card mt-3" style="background: var(--sky-surface);">
+      <div class="row">
+        <div class="col-6 col-md-3"><span class="text-muted small">PNR</span><br><strong>{{ searchResult.pnr }}</strong></div>
+        <div class="col-6 col-md-2"><span class="text-muted small">Seat</span><br><strong>{{ searchResult.seatNumber }}</strong></div>
+        <div class="col-6 col-md-3"><span class="text-muted small">Status</span><br>
+          <span class="badge-sky" [ngClass]="searchResult.status === 'Confirmed' ? 'badge-confirmed' : 'badge-cancelled'">
+            {{ searchResult.status }}
+          </span>
+        </div>
+        <div class="col-6 col-md-4"><span class="text-muted small">Booked</span><br><strong>{{ formatDate(searchResult.bookedAt) }}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="cancelMessage" class="sky-alert sky-alert-info mb-3">{{ cancelMessage }}</div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="sky-spinner"></div>
+  </div>
+
+  <!-- No bookings -->
+  <div *ngIf="!loading && bookings.length === 0" class="text-center py-5">
+    <div><img src="assets/svgs/train-ticket-svgrepo-com.svg" class="sky-icon-lg" alt="ticket"></div>
+    <h4 class="mt-3 fw-bold">No bookings yet</h4>
+    <p class="text-muted">Search for a flight and book your first ticket!</p>
+  </div>
+
+  <!-- Booking cards -->
+  <div class="row g-3">
+    <div *ngFor="let b of bookings; let i = index" class="col-12 fade-in-up" [style.animation-delay]="(i*0.06)+'s'">
+      <div class="sky-card">
+        <div class="row align-items-center">
+          <div class="col-md-3">
+            <div class="fw-bold" style="color: var(--sky-cyan);">{{ b.pnr }}</div>
+            <div class="text-muted small">PNR</div>
+          </div>
+          <div class="col-md-2">
+            <div class="fw-bold">Flight {{ formatFlightId(b.flightId) }}</div>
+            <div class="text-muted small">Seat {{ b.seatNumber }}</div>
+          </div>
+          <div class="col-md-2">
+            <span class="badge-sky" [ngClass]="b.status === 'Confirmed' ? 'badge-confirmed' : 'badge-cancelled'">
+              {{ b.status }}
+            </span>
+          </div>
+          <div class="col-md-3">
+            <div class="small">Booked: {{ formatDate(b.bookedAt) }}</div>
+            <div *ngIf="b.cancelledAt" class="small text-danger">Cancelled: {{ formatDate(b.cancelledAt) }}</div>
+          </div>
+          <div class="col-md-2 text-end">
+            <button *ngIf="b.status === 'Confirmed'" class="btn-sky-danger" (click)="cancelBooking(b.pnr)">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

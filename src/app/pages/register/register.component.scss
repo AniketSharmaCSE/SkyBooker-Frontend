@@ -1,0 +1,71 @@
+.auth-section {
+  padding-top: 56px;
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.sky-card-glass {
+  border-radius: 20px;
+}
+
+.auth-tabs {
+  display: flex;
+  border-bottom: 2px solid #f3f4f6;
+  margin-bottom: 1rem;
+}
+
+.auth-tab {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--sky-muted);
+  text-decoration: none;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.3s ease;
+
+  &:hover { color: var(--sky-text); }
+  &.active { color: var(--sky-text); border-bottom-color: var(--sky-orange); }
+}
+
+.input-icon-wrap {
+  position: relative;
+}
+
+.sky-input.with-eye {
+  padding-right: 3rem;
+  width: 100%;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--sky-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  &:hover { color: var(--sky-text); }
+}
+
+.eye-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.sky-icon-inline {
+  width: 1rem;
+  height: 1rem;
+  vertical-align: middle;
+  flex-shrink: 0;
+}

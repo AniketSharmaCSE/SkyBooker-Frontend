@@ -1,0 +1,181 @@
+<div class="page-header">
+  <div class="container" *ngIf="flight">
+    <div class="d-flex align-items-center gap-3">
+      <div class="airline-logo-circle sky-card-glass"><img src="/assets/svgs/compass-svgrepo-com.svg" class="sky-icon-lg" alt="flight"></div>
+      <div>
+        <h1 class="mb-0">{{ flight.origin }} to {{ flight.destination }}</h1>
+        <p class="text-muted mb-0">{{ flight.airline || 'SkyBooker Express' }} · {{ formatFlightId(flight.id) }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container section-padding" style="padding-top: 0;">
+  <div *ngIf="bookingSuccess" class="booking-overlay">
+    <div class="booking-modal sky-card-glass text-center fade-in-up">
+      <div class="success-icon"><img src="/assets/svgs/travel-holiday-vacation-13-svgrepo-com.svg" class="sky-icon" alt="success"></div>
+      <h3 class="fw-bold mt-3">Booking Confirmed!</h3>
+      <p class="text-muted">{{ pnrs.length }} seat{{ pnrs.length > 1 ? 's' : '' }} booked successfully.</p>
+      <div *ngFor="let p of pnrs; let i = index" class="pnr-display" [style.margin-top]="i > 0 ? '0.5rem' : '1rem'">
+        <div class="pnr-label">PNR - {{ selectedSeats[i].seatNumber }}</div>
+        <div class="pnr-value">{{ p }}</div>
+      </div>
+      <p class="text-muted small mt-3">Save these PNRs for future reference</p>
+      <button class="btn-sky mt-3" (click)="goToMyBookings()">View My Bookings -></button>
+    </div>
+  </div>
+
+  <div class="row g-4 mt-2">
+    <div class="col-lg-8 fade-in-up">
+      <div class="sky-card seat-map-container" style="overflow-x: auto;">
+        <h5 class="fw-bold mb-3">Cabin Layout - {{ formatFlightId(flight?.id || '') }}</h5>
+
+        <div class="cabin-legend-panel mb-3" *ngIf="!loading">
+          <div class="legend-heading">Cabin Classes</div>
+          <div class="cabin-legend">
+            <div class="cabin-legend-item" *ngFor="let item of cabinLegend">
+              <span class="cabin-chip" [class]="item.key"></span>
+              <span>{{ item.label }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isStaff() && !loading" class="sky-alert sky-alert-info mb-3">
+          <strong>Staff Mode:</strong> Click available or blocked seats to select them for blocking or unblocking.
+        </div>
+
+        <div *ngIf="loading" class="text-center py-5">
+          <div class="sky-spinner"></div>
+        </div>
+
+        <svg *ngIf="!loading" [attr.width]="svgWidth" [attr.height]="svgHeight" class="fuselage-svg">
+          <rect x="0" y="50" [attr.width]="svgWidth - 20" [attr.height]="svgHeight - 60" rx="40" class="fuselage-body" />
+
+          <g transform="translate(0, 58)">
+            <text *ngFor="let col of columns" [attr.x]="getSeatX(col) + 19" y="15" class="svg-col-header">{{ col }}</text>
+            <text [attr.x]="rowLabelWidth + 3 * (seatWidth + seatGap) + 15" y="15" class="svg-aisle-label">AISLE</text>
+          </g>
+
+          <g *ngFor="let row of rows">
+            <text [attr.x]="15" [attr.y]="getSeatY(row) + 22" class="svg-row-label">{{ row }}</text>
+            <g *ngFor="let col of columns">
+              <rect *ngIf="getSeat(row, col) as seat"
+                    [attr.x]="getSeatX(col)"
+                    [attr.y]="getSeatY(row)"
+                    [attr.width]="seatWidth"
+                    [attr.height]="seatHeight"
+                    rx="6"
+                    class="seat-rect"
+                    [class.cabin-business]="getCabinClassKey(seat) === 'business'"
+                    [class.cabin-premium-economy]="getCabinClassKey(seat) === 'premium-economy'"
+                    [class.cabin-economy]="getCabinClassKey(seat) === 'economy'"
+                    [class.seat-available]="getSeatStatus(seat) === 'available'"
+                    [class.seat-booked]="getSeatStatus(seat) === 'booked'"
+                    [class.seat-blocked]="getSeatStatus(seat) === 'blocked'"
+                    [class.seat-selected]="getSeatStatus(seat) === 'selected'"
+                    [class.seat-suggested]="getSeatStatus(seat) === 'suggested'"
+                    (click)="selectSeat(seat)">
+              </rect>
+              <text *ngIf="getSeat(row, col) as seat"
+                    [attr.x]="getSeatX(col) + 19"
+                    [attr.y]="getSeatY(row) + 19"
+                    class="seat-text"
+                    (click)="selectSeat(seat)">
+                {{ seat.seatNumber }}
+              </text>
+              <text *ngIf="getSeat(row, col) as seat"
+                    [attr.x]="getSeatX(col) + 19"
+                    [attr.y]="getSeatY(row) + 29"
+                    class="seat-class-text"
+                    (click)="selectSeat(seat)">
+                {{ getCabinClassKey(seat) === 'business' ? 'B' : getCabinClassKey(seat) === 'premium-economy' ? 'P' : 'E' }}
+              </text>
+            </g>
+          </g>
+        </svg>
+
+        <div class="seat-legend mt-4">
+          <div class="legend-item"><span class="legend-box available"></span> Available</div>
+          <div class="legend-item"><span class="legend-box selected"></span> Selected</div>
+          <div class="legend-item"><span class="legend-box suggested"></span> Suggested</div>
+          <div class="legend-item"><span class="legend-box booked"></span> Booked</div>
+          <div class="legend-item"><span class="legend-box blocked"></span> Blocked</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 fade-in-up" style="animation-delay: 0.1s">
+      <div class="sky-card booking-summary sticky-top" style="top: 20px;">
+        <h5 class="fw-bold mb-4">Flight Summary</h5>
+
+        <div *ngIf="flight" class="mb-4">
+          <div class="info-row">
+            <span class="info-label">Route</span>
+            <span class="info-value">{{ flight.origin }} -> {{ flight.destination }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Date</span>
+            <span class="info-value">{{ formatDate(flight.departureTime) }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Time</span>
+            <span class="info-value">{{ formatTime(flight.departureTime) }} - {{ formatTime(flight.arrivalTime) }}</span>
+          </div>
+          <div class="info-row" *ngIf="selectedSeats.length === 0">
+            <span class="info-label">Base Price</span>
+            <span class="info-value">Rs {{ flight.price | number }}</span>
+          </div>
+          <div class="info-row" *ngIf="selectedSeats.length > 0">
+            <span class="info-label">Total ({{ selectedSeats.length }} seat{{ selectedSeats.length !== 1 ? 's' : '' }})</span>
+            <span class="info-value price-highlight">Rs {{ getTotalPrice() | number }}</span>
+          </div>
+        </div>
+
+        <hr style="border-color: var(--sky-border);">
+
+        <div *ngIf="selectedSeats.length > 0" class="selected-seat-display">
+          <div *ngFor="let seat of selectedSeats" class="selected-seat-item">
+            <div class="info-row">
+              <span class="info-label">
+                <span class="seat-badge cabin-{{ getCabinClassKey(seat) }}">{{ seat.seatNumber }}</span>
+                {{ getCabinLabel(seat) }} · {{ seat.seatType }}
+              </span>
+              <span class="info-value d-flex align-items-center gap-2">
+                Rs {{ getSeatPrice(seat) | number }}
+                <button class="remove-seat-btn" (click)="removeSelectedSeat(seat)" title="Remove">x</button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="selectedSeats.length === 0" class="text-center py-3">
+          <p class="text-muted small mb-0"><img src="assets/svgs/square-alt-arrow-left-svgrepo-com.svg" class="sky-icon" alt="point"> Click seats on the map to select them. `B` means Business, `P` Premium Economy, and `E` Economy.</p>
+        </div>
+
+        <div *ngIf="error" class="sky-alert sky-alert-error mt-3"><img src="/assets/svgs/life-buoy-svgrepo-com.svg" class="sky-icon" alt="warning"> {{ error }}</div>
+
+        <div *ngIf="!isStaff()">
+          <button class="btn-sky-outline w-100 mt-3" (click)="getSuggestion()" id="btn-suggest">
+            <img src="/assets/svgs/sparkles-svgrepo-com.svg" class="sky-icon" alt="idea"> Smart Suggestion
+          </button>
+        </div>
+
+        <button *ngIf="isStaff()" class="btn-sky w-100 mt-3" (click)="toggleBlockSeats()"
+                [disabled]="selectedSeats.length === 0 || loading" id="btn-block-seats">
+          <span *ngIf="!loading">Block/Unblock {{ selectedSeats.length > 1 ? selectedSeats.length + ' Seats' : 'Seat' }}</span>
+          <span *ngIf="loading">
+            <span class="sky-spinner" style="width:1rem;height:1rem;border-width:2px;"></span> Processing...
+          </span>
+        </button>
+
+        <button *ngIf="!isStaff()" class="btn-sky w-100 mt-3" (click)="confirmBooking()"
+                [disabled]="selectedSeats.length === 0 || booking" id="btn-confirm-booking">
+          <span *ngIf="!booking">Confirm {{ selectedSeats.length > 1 ? selectedSeats.length + ' Seats' : 'Booking' }} -></span>
+          <span *ngIf="booking">
+            <span class="sky-spinner" style="width:1rem;height:1rem;border-width:2px;"></span> Booking...
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

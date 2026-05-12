@@ -1,0 +1,101 @@
+<div class="page-header">
+  <div class="container"><h1><img src="/assets/svgs/hair-salon-seat-svgrepo-com.svg" class="sky-icon" alt="seat"> Generate Seat Map</h1></div>
+</div>
+
+<div class="container section-padding" style="padding-top: 0;">
+  <div class="row justify-content-center">
+    <div class="col-xl-10">
+      <div *ngIf="message" class="sky-alert sky-alert-success mb-3"><img src="/assets/svgs/compass-svgrepo-com.svg" class="sky-icon" alt="check"> {{ message }}</div>
+      <div *ngIf="error" class="sky-alert sky-alert-error mb-3"><img src="/assets/svgs/life-buoy-svgrepo-com.svg" class="sky-icon" alt="warning"> {{ error }}</div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="sky-card fade-in-up control-card">
+            <div class="panel-kicker">Seat Setup</div>
+            <h5 class="fw-bold mb-2">Generate seats for a real flight ID</h5>
+            <p class="panel-copy mb-4">Pick a live flight from the backend list below. The seat service uses the numeric flight ID, not the flight number.</p>
+
+            <form (ngSubmit)="generate()">
+              <div class="mb-4">
+                <label class="sky-label">Selected Flight ID</label>
+                <input type="text" class="sky-input" [(ngModel)]="flightId" name="flightId" placeholder="Choose a flight below" required>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-sm-6 mb-2">
+                  <label class="sky-label">Business Seats</label>
+                  <input type="number" min="0" class="sky-input" [(ngModel)]="businessSeats" name="businessSeats" placeholder="Auto">
+                </div>
+                <div class="col-sm-6 mb-2">
+                  <label class="sky-label">Premium Economy</label>
+                  <input type="number" min="0" class="sky-input" [(ngModel)]="premiumEconomySeats" name="premiumEconomySeats" placeholder="Auto">
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="sky-label">Economy Seats</label>
+                <input type="number" min="0" class="sky-input" [(ngModel)]="economySeats" name="economySeats" placeholder="Auto">
+              </div>
+
+              <div class="mb-4">
+                <label class="sky-label">Seats to Block</label>
+                <input type="text" class="sky-input" [(ngModel)]="blockedSeatsInput" name="blockedSeatsInput" placeholder="e.g. 1A, 2B, 3C">
+                <p class="helper-copy mt-2 mb-0">Comma-separated seats will be marked as blocked immediately.</p>
+              </div>
+
+              <button type="submit" class="btn-sky w-100 py-3 mb-3" [disabled]="loading || !isFlightIdValid">
+                {{ loading ? 'Generating...' : 'Generate Seats ->' }}
+              </button>
+
+              <button type="button" class="btn-sky-outline w-100 py-3" (click)="viewMap()" [disabled]="!isFlightIdValid">
+                View Existing Seat Map
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="sky-card fade-in-up flight-picker">
+            <div class="picker-head">
+              <div>
+                <div class="panel-kicker">Flight Picker</div>
+                <h5 class="fw-bold mb-1">Available flights</h5>
+                <p class="panel-copy mb-0">Select one to fill the correct flight ID automatically.</p>
+              </div>
+              <button type="button" class="btn-sky-outline btn-sm" (click)="loadFlights()" [disabled]="flightsLoading">
+                {{ flightsLoading ? 'Refreshing...' : 'Refresh' }}
+              </button>
+            </div>
+
+            <div *ngIf="flightsLoading" class="flight-list-empty">
+              <div class="sky-spinner"></div>
+              <p class="mb-0 mt-3">Loading flights...</p>
+            </div>
+
+            <div *ngIf="!flightsLoading && availableFlights.length === 0" class="flight-list-empty">
+              <p class="mb-1 fw-semibold">No active flights found.</p>
+              <p class="mb-0 text-muted">Add a flight first, then come back here to generate seats.</p>
+            </div>
+
+            <div *ngIf="!flightsLoading && availableFlights.length > 0" class="flight-list">
+              <button
+                *ngFor="let flight of availableFlights"
+                type="button"
+                class="flight-option"
+                [class.selected]="flightId.toString() === flight.id.toString()"
+                (click)="chooseFlight(flight)">
+                <div class="flight-option-top">
+                  <span class="flight-badge">{{ flight.flightNumber }}</span>
+                  <span class="flight-id">ID {{ flight.id }}</span>
+                </div>
+                <div class="flight-route">{{ flight.origin }} -> {{ flight.destination }}</div>
+                <div class="flight-meta">{{ formatFlightLabel(flight) }}</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
