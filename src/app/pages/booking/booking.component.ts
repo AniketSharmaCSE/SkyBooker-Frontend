@@ -35,6 +35,11 @@ export class BookingComponent implements OnInit {
   // Seat map layout
   columns = ['A', 'B', 'C', 'D', 'E', 'F'];
   rows: number[] = [];
+  cabinLegend = [
+    { key: 'business', label: 'Business' },
+    { key: 'premium-economy', label: 'Premium Economy' },
+    { key: 'economy', label: 'Economy' }
+  ];
 
   getCityCode = getCityCode;
   formatFlightId = formatFlightId;
@@ -65,6 +70,10 @@ export class BookingComponent implements OnInit {
 
   getCabinClassKey(seat: SeatResponse): string {
     return (seat.cabinClass || 'Economy').replace(/\s+/g, '-').toLowerCase();
+  }
+
+  getCabinLabel(seat: SeatResponse | undefined): string {
+    return seat?.cabinClass || 'Economy';
   }
 
   isSelected(seat: SeatResponse): boolean {

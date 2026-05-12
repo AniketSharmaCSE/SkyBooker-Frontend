@@ -18,7 +18,7 @@ export class HomeComponent {
 
   cities = CITIES;
 
-  destinations = CITIES.slice(0, 6); // Top 6 destinations
+  destinations = CITIES.slice(0, 6); // shown on the home page
 
   constructor(private router: Router) {}
 

@@ -21,9 +21,15 @@ export class LoginComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
   login() {
-    this.loading = true;
     this.error = '';
-    this.auth.login({ email: this.email, password: this.password }).subscribe({
+    const validationError = this.validate();
+    if (validationError) {
+      this.error = validationError;
+      return;
+    }
+
+    this.loading = true;
+    this.auth.login({ email: this.email.trim(), password: this.password }).subscribe({
       next: () => {
         const role = this.auth.getRole();
         this.router.navigate(role === 'STAFF' ? ['/staff'] : ['/']);
@@ -33,5 +39,24 @@ export class LoginComponent {
         this.loading = false;
       }
     });
+  }
+
+  private validate(): string {
+    const email = this.email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return 'Enter a valid email address.';
+    }
+    if (!this.isStrongPassword(this.password)) {
+      return 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.';
+    }
+    return '';
+  }
+
+  private isStrongPassword(password: string): boolean {
+    return password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /\d/.test(password) &&
+      /[^A-Za-z0-9]/.test(password);
   }
 }

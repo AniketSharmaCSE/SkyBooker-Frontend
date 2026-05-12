@@ -20,6 +20,8 @@ export class FlightsComponent implements OnInit {
   origin = '';
   destination = '';
   date = '';
+  message = '';
+  error = '';
   cities = CITIES;
 
   getCityCode = getCityCode;
@@ -44,16 +46,28 @@ export class FlightsComponent implements OnInit {
 
   search(): void {
     this.loading = true;
-    this.flightService.searchFlights(
-      this.origin || undefined,
-      this.destination || undefined,
-      this.date || undefined
-    ).subscribe({
+    this.message = '';
+    this.error = '';
+
+    const request$ = this.isStaff()
+      ? this.flightService.getAllFlights(
+          this.origin || undefined,
+          this.destination || undefined,
+          this.date || undefined
+        )
+      : this.flightService.searchFlights(
+          this.origin || undefined,
+          this.destination || undefined,
+          this.date || undefined
+        );
+
+    request$.subscribe({
       next: (data) => {
         this.flights = data;
         this.loading = false;
       },
       error: () => {
+        this.error = 'Could not load flights.';
         this.loading = false;
       }
     });
@@ -84,12 +98,48 @@ export class FlightsComponent implements OnInit {
     this.router.navigate(['/booking', flightId]);
   }
 
+  cancelFlight(flight: FlightResponse): void {
+    if (!confirm(`Cancel flight ${flight.flightNumber}? This will stop new bookings.`)) return;
+
+    this.flightService.cancelFlight(flight.id).subscribe({
+      next: (res) => {
+        this.message = res.message;
+        this.search();
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Could not cancel flight.';
+      }
+    });
+  }
+
+  deleteFlight(flight: FlightResponse): void {
+    if (!confirm(`Delete flight ${flight.flightNumber}? This cannot be undone.`)) return;
+
+    this.flightService.deleteFlight(flight.id).subscribe({
+      next: (res) => {
+        this.message = res.message;
+        this.search();
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Could not delete flight.';
+      }
+    });
+  }
+
   isPassenger(): boolean {
     return this.authService.getRole() === 'PASSENGER';
   }
 
+  isStaff(): boolean {
+    return this.authService.getRole() === 'STAFF';
+  }
+
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
+  }
+
+  canManageSeats(flight: FlightResponse): boolean {
+    return !flight.isCancelled;
   }
 
   formatTime(dateStr: string): string {

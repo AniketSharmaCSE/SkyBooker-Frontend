@@ -1,10 +1,18 @@
 .stat-card {
   text-align: center;
   padding: 2rem;
+  border: 1px solid rgba(21, 29, 52, 0.05);
+  min-height: 100%;
 }
 
 .stat-icon-bg {
-  font-size: 2.5rem;
+  width: 4.25rem;
+  height: 4.25rem;
+  margin: 0 auto 1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 132, 56, 0.16), rgba(255, 132, 56, 0.05));
   margin-bottom: 0.8rem;
 }
 
@@ -16,8 +24,8 @@
 
 .stat-title {
   font-size: 0.85rem;
-  color: var(--sky-muted);
-  font-weight: 500;
+  color: var(--sky-text-secondary);
+  font-weight: 600;
   margin-top: 0.3rem;
 }
 
@@ -26,6 +34,8 @@
   padding: 1.5rem;
   color: var(--sky-text);
   transition: all 0.3s ease;
+  border: 1px solid rgba(21, 29, 52, 0.05);
+  min-height: 100%;
 
   &:hover {
     transform: translateY(-4px);
@@ -41,8 +51,8 @@
 }
 
 .action-label {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .stat-icon-bg img.sky-icon {

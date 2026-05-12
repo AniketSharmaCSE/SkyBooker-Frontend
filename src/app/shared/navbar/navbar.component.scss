@@ -1,9 +1,10 @@
 .sky-navbar {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 0.6rem 0;
+  background: rgba(21, 29, 52, 0.94);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.55rem 0;
   z-index: 1050;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  box-shadow: 0 14px 40px rgba(21, 29, 52, 0.16);
+  backdrop-filter: blur(16px);
 }
 
 .brand-logo {
@@ -21,13 +22,13 @@
 .brand-text {
   font-weight: 700;
   font-size: 1.25rem;
-  color: var(--sky-orange);
+  color: #ffffff;
 }
 
 .nav-link {
   font-weight: 500;
   font-size: 0.9rem;
-  color: var(--sky-text-secondary) !important;
+  color: rgba(255, 255, 255, 0.76) !important;
   transition: all 0.3s ease;
   padding: 0.5rem 0.85rem !important;
   border-radius: 10px;
@@ -36,8 +37,8 @@
   gap: 0.35rem;
 
   &:hover, &.active {
-    color: var(--sky-orange) !important;
-    background: rgba(255, 107, 0, 0.06);
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08);
   }
 }
 
@@ -101,15 +102,16 @@
   border-radius: 50px;
   font-weight: 600;
   transition: all 0.3s ease;
-  color: var(--sky-text) !important;
-  border-color: var(--sky-border) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
 
   &:hover {
-    background: #f9fafb !important;
-    border-color: #d1d5db !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
   }
 }
 
 .navbar-toggler {
-  border: 1px solid #e5e7eb !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  filter: invert(1);
 }

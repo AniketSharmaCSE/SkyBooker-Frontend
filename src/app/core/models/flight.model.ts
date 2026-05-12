@@ -22,6 +22,8 @@ export interface FlightResponse {
   totalSeats: number;
   availableSeats: number;
   isAvailable: boolean;
+  isCancelled: boolean;
+  status: string;
   airline: string;
   comfortPremium: number;
 }

@@ -3,7 +3,6 @@
     <div class="row justify-content-center">
       <div class="col-md-5 col-lg-4">
         <div class="sky-card-glass fade-in-up">
-          <!-- Tab header -->
           <div class="auth-tabs mb-4">
             <a routerLink="/login" class="auth-tab">Log In</a>
             <a routerLink="/register" class="auth-tab active">Sign Up</a>
@@ -23,19 +22,19 @@
             {{ success }}
           </div>
 
-          <form (ngSubmit)="register()">
+          <form (ngSubmit)="register()" novalidate>
             <div class="mb-3">
               <input type="text" class="sky-input" placeholder="Full Name"
                      [(ngModel)]="fullName" name="fullName" required id="register-name">
             </div>
             <div class="mb-3">
               <input type="email" class="sky-input" placeholder="Email Address"
-                     [(ngModel)]="email" name="email" required id="register-email">
+                     [(ngModel)]="email" name="email" required email id="register-email">
             </div>
             <div class="mb-3">
               <div class="input-icon-wrap">
-                <input [type]="showPassword ? 'text' : 'password'" class="sky-input with-eye" placeholder="Password (min 6 chars)"
-                       [(ngModel)]="password" name="password" required id="register-password">
+                <input [type]="showPassword ? 'text' : 'password'" class="sky-input with-eye" placeholder="Strong password"
+                       [(ngModel)]="password" name="password" required minlength="8" id="register-password">
                 <button type="button" class="eye-btn" (click)="showPassword = !showPassword" tabindex="-1" aria-label="Toggle password">
                   <svg *ngIf="!showPassword" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   <svg *ngIf="showPassword" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -51,7 +50,7 @@
             </div>
             <button type="submit" class="btn-sky w-100 py-3" [disabled]="loading" id="btn-register">
               <span *ngIf="!loading">Create Account</span>
-              <span *ngIf="!loading" style="margin-left: 0.3rem;">→</span>
+              <span *ngIf="!loading" style="margin-left: 0.3rem;">-></span>
               <span *ngIf="loading" class="sky-spinner" style="width:1.2rem;height:1.2rem;border-width:2px;"></span>
             </button>
           </form>

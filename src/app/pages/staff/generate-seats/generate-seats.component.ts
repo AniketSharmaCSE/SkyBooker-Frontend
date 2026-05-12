@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SeatService } from '../../../core/services/seat.service';
+import { FlightService } from '../../../core/services/flight.service';
+import { FlightResponse } from '../../../core/models/flight.model';
 
 @Component({
   selector: 'app-generate-seats',
@@ -11,21 +13,45 @@ import { SeatService } from '../../../core/services/seat.service';
   templateUrl: './generate-seats.component.html',
   styleUrl: './generate-seats.component.scss'
 })
-export class GenerateSeatsComponent {
+export class GenerateSeatsComponent implements OnInit {
   flightId: string | number = '';
   businessSeats: number | null = null;
   premiumEconomySeats: number | null = null;
   economySeats: number | null = null;
-  blockedSeatsInput: string = ''; // comma separated string
+  blockedSeatsInput = '';
   message = '';
   error = '';
   loading = false;
+  flightsLoading = false;
+  availableFlights: FlightResponse[] = [];
 
-  constructor(private seatService: SeatService, private router: Router) {}
+  constructor(
+    private seatService: SeatService,
+    private flightService: FlightService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loadFlights();
+  }
 
   get isFlightIdValid(): boolean {
     if (this.flightId == null || this.flightId === '') return false;
     return this.flightId.toString().trim().length > 0;
+  }
+
+  loadFlights(): void {
+    this.flightsLoading = true;
+    this.flightService.searchFlights().subscribe({
+      next: (flights) => {
+        this.availableFlights = flights;
+        this.flightsLoading = false;
+      },
+      error: () => {
+        this.error = 'Could not load available flights.';
+        this.flightsLoading = false;
+      }
+    });
   }
 
   generate(): void {
@@ -41,7 +67,6 @@ export class GenerateSeatsComponent {
     this.error = '';
     this.loading = true;
 
-    // Parse blocked seats from input
     const blockedSeats = this.blockedSeatsInput
       ? this.blockedSeatsInput.split(',').map(s => s.trim()).filter(s => s.length > 0)
       : undefined;
@@ -56,7 +81,6 @@ export class GenerateSeatsComponent {
       next: (res) => {
         this.message = res.message || 'Seats generated successfully!';
         this.loading = false;
-        // Navigate to manage seats after a short delay
         setTimeout(() => {
           this.router.navigate(['/booking', flightIdStr]);
         }, 1500);
@@ -72,5 +96,21 @@ export class GenerateSeatsComponent {
     const flightIdStr = this.flightId != null ? this.flightId.toString().trim() : '';
     if (!flightIdStr) return;
     this.router.navigate(['/booking', flightIdStr]);
+  }
+
+  chooseFlight(flight: FlightResponse): void {
+    this.flightId = String(flight.id);
+    this.message = '';
+    this.error = '';
+  }
+
+  formatFlightLabel(flight: FlightResponse): string {
+    const departure = new Date(flight.departureTime).toLocaleString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    return `${flight.flightNumber} | ID ${flight.id} | ${flight.origin} -> ${flight.destination} | ${departure}`;
   }
 }

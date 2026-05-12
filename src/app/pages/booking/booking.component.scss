@@ -3,6 +3,60 @@
   min-height: 400px;
 }
 
+.cabin-legend-panel {
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  background: #fffaf5;
+  border: 1px solid #fde6d6;
+}
+
+.legend-heading {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sky-orange-dark);
+  margin-bottom: 0.7rem;
+}
+
+.cabin-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.25rem;
+}
+
+.cabin-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--sky-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cabin-chip {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  display: inline-block;
+  border: 1px solid transparent;
+
+  &.business {
+    background: #efe7ff;
+    border-color: #c4b5fd;
+  }
+
+  &.premium-economy {
+    background: #e0f2fe;
+    border-color: #7dd3fc;
+  }
+
+  &.economy {
+    background: #e8f7ec;
+    border-color: #86efac;
+  }
+}
+
 .fuselage-svg {
   display: block;
   margin: 0 auto;
@@ -47,37 +101,64 @@
     transform: translateY(-1px);
   }
 
-  &.seat-available { 
-    fill: #f1f5f9; 
-    stroke: #e2e8f0;
+  &.seat-available {
+    stroke-width: 1.2px;
   }
-  &.seat-booked { 
-    fill: #fee2e2; 
-    stroke: #fecaca; 
+
+  &.seat-available.cabin-business {
+    fill: #efe7ff;
+    stroke: #c4b5fd;
+  }
+
+  &.seat-available.cabin-premium-economy {
+    fill: #e0f2fe;
+    stroke: #7dd3fc;
+  }
+
+  &.seat-available.cabin-economy {
+    fill: #e8f7ec;
+    stroke: #86efac;
+  }
+
+  &.seat-booked {
+    fill: #fee2e2;
+    stroke: #fecaca;
     cursor: not-allowed;
     &:hover { transform: none; filter: none; }
   }
-  &.seat-blocked { 
-    fill: #f3f4f6; 
-    stroke: #9ca3af; 
-    stroke-dasharray: 4; 
+
+  &.seat-blocked {
+    fill: #f3f4f6;
+    stroke: #9ca3af;
+    stroke-dasharray: 4;
   }
-  &.seat-selected { 
-    fill: var(--sky-orange); 
+
+  &.seat-selected {
+    fill: var(--sky-orange);
     stroke: var(--sky-orange);
     filter: drop-shadow(0 4px 6px rgba(255, 107, 0, 0.3));
   }
-  &.seat-suggested { 
-    fill: #fff7ed; 
-    stroke: var(--sky-orange); 
-    stroke-width: 2px; 
+
+  &.seat-suggested {
+    fill: #fff7ed;
+    stroke: var(--sky-orange);
+    stroke-width: 2px;
   }
 }
 
 .seat-text {
-  font-size: 10px;
-  font-weight: 700;
-  fill: #64748b;
+  font-size: 9px;
+  font-weight: 800;
+  fill: #334155;
+  text-anchor: middle;
+  pointer-events: none;
+  user-select: none;
+}
+
+.seat-class-text {
+  font-size: 8px;
+  font-weight: 800;
+  fill: rgba(15, 23, 42, 0.72);
   text-anchor: middle;
   pointer-events: none;
   user-select: none;
@@ -85,6 +166,10 @@
 
 .seat-rect.seat-selected + .seat-text {
   fill: white;
+}
+
+.seat-rect.seat-selected + .seat-text + .seat-class-text {
+  fill: rgba(255, 255, 255, 0.92);
 }
 
 .seat-legend {
@@ -124,6 +209,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.8rem;
+    gap: 0.8rem;
   }
 
   .info-label {
@@ -134,6 +220,7 @@
   .info-value {
     font-weight: 600;
     color: var(--sky-text);
+    text-align: right;
   }
 
   .price-highlight {
@@ -191,7 +278,6 @@
   &:hover { background: #fee2e2; border-color: #dc2626; color: #dc2626; }
 }
 
-// Success Modal 
 .booking-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;

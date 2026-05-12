@@ -1,31 +1,31 @@
 @import 'bootstrap/scss/bootstrap';
 
-// Google Font 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
-// Design tokens 
 :root {
-  --sky-bg: #f5f5f7;
+  --sky-bg: #e8e8eb;
   --sky-surface: #ffffff;
   --sky-card: #ffffff;
-  --sky-border: #e5e7eb;
-  --sky-orange: #ff6b00;
-  --sky-orange-light: #ff8c33;
-  --sky-orange-dark: #e05e00;
+  --sky-border: #e4e4e8;
+  --sky-navy: #151d34;
+  --sky-navy-soft: #202a45;
+  --sky-orange: #ff8438;
+  --sky-orange-light: #ff9a57;
+  --sky-orange-dark: #eb6f25;
   --sky-green: #16a34a;
   --sky-red: #dc2626;
   --sky-amber: #f59e0b;
-  --sky-text: #1f2937;
-  --sky-text-secondary: #4b5563;
-  --sky-muted: #9ca3af;
-  --sky-gradient: linear-gradient(135deg, #ff6b00, #ff8c33);
-  --sky-radius: 14px;
-  --sky-shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --sky-shadow: 0 4px 20px rgba(0,0,0,0.06);
-  --sky-shadow-lg: 0 10px 40px rgba(0,0,0,0.1);
+  --sky-text: #192139;
+  --sky-text-secondary: #6d7280;
+  --sky-muted: #a2a5ad;
+  --sky-muted-strong: #717784;
+  --sky-gradient: linear-gradient(135deg, #ff8438, #ff8d43);
+  --sky-radius: 18px;
+  --sky-shadow-sm: 0 8px 24px rgba(21, 29, 52, 0.06);
+  --sky-shadow: 0 16px 40px rgba(21, 29, 52, 0.1);
+  --sky-shadow-lg: 0 30px 70px rgba(21, 29, 52, 0.16);
 }
 
-// Globals 
 * { box-sizing: border-box; }
 
 html, body {
@@ -35,14 +35,15 @@ html, body {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--sky-bg);
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.8), transparent 30rem),
+    linear-gradient(135deg, #f2f2f4 0%, #d9d9de 100%);
   color: var(--sky-text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-// Scrollbar 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--sky-bg); }
 ::-webkit-scrollbar-thumb {
@@ -50,36 +51,33 @@ body {
   border-radius: 3px;
 }
 
-// Reusable card 
 .sky-card {
   background: var(--sky-card);
-  border: 1px solid var(--sky-border);
+  border: 0;
   border-radius: var(--sky-radius);
   padding: 1.5rem;
-  box-shadow: var(--sky-shadow-sm);
+  box-shadow: var(--sky-shadow);
   transition: all 0.3s ease;
 
   &:hover {
     box-shadow: var(--sky-shadow);
-    border-color: #d1d5db;
   }
 }
 
 .sky-card-glass {
   background: #ffffff;
-  border: 1px solid var(--sky-border);
-  border-radius: var(--sky-radius);
+  border: 0;
+  border-radius: 16px;
   padding: 2rem;
   box-shadow: var(--sky-shadow-lg);
 }
 
-// Buttons 
 .btn-sky {
   background: var(--sky-gradient);
   color: #fff;
   border: none;
-  border-radius: 50px;
-  padding: 0.7rem 1.8rem;
+  border-radius: 10px;
+  padding: 0.85rem 1.8rem;
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.3s ease;
@@ -104,9 +102,9 @@ body {
 
 .btn-sky-outline {
   background: transparent;
-  color: var(--sky-orange);
-  border: 2px solid var(--sky-orange);
-  border-radius: 50px;
+  color: var(--sky-navy);
+  border: 1.5px solid var(--sky-border);
+  border-radius: 10px;
   padding: 0.6rem 1.5rem;
   font-weight: 600;
   font-size: 0.9rem;
@@ -114,7 +112,7 @@ body {
   cursor: pointer;
 
   &:hover {
-    background: rgba(255, 107, 0, 0.06);
+    background: rgba(255, 132, 56, 0.09);
     transform: translateY(-1px);
     color: var(--sky-orange);
   }
@@ -137,10 +135,9 @@ body {
   }
 }
 
-// Form controls 
 .sky-input {
-  background: #f9fafb;
-  border: 1.5px solid var(--sky-border);
+  background: #ffffff;
+  border: 1.5px solid #dedee4;
   border-radius: 12px;
   color: var(--sky-text);
   padding: 0.75rem 1rem;
@@ -158,6 +155,17 @@ body {
   &::placeholder {
     color: var(--sky-muted);
   }
+
+  &:disabled,
+  &:read-only {
+    background: #f4f5f7;
+    color: var(--sky-text-secondary);
+    opacity: 1;
+  }
+
+  &.ng-invalid.ng-touched {
+    border-color: rgba(220, 38, 38, 0.55);
+  }
 }
 
 select.sky-input {
@@ -169,28 +177,35 @@ select.sky-input {
 }
 
 label.sky-label {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: var(--sky-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: var(--sky-muted-strong);
+  text-transform: none;
+  letter-spacing: 0;
   margin-bottom: 0.4rem;
   display: block;
 }
 
-// Page header 
 .page-header {
-  padding-top: 5rem;
-  padding-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  padding-top: 6.5rem;
+  padding-bottom: 7rem;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.08) 0 2px, transparent 2px) 0 0 / 14px 14px,
+    var(--sky-navy);
+  color: #ffffff;
+  border-bottom-left-radius: 36px;
+  border-bottom-right-radius: 36px;
+  margin-bottom: -5.5rem;
 
   h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--sky-text);
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff;
   }
 }
 
-// Orange accent text 
 .gradient-text {
   color: var(--sky-orange);
   background: none;
@@ -199,7 +214,6 @@ label.sky-label {
   background-clip: unset;
 }
 
-// Status badges 
 .badge-sky {
   padding: 0.35rem 0.8rem;
   border-radius: 50px;
@@ -229,7 +243,6 @@ label.sky-label {
   color: var(--sky-red);
 }
 
-// Table 
 .sky-table {
   width: 100%;
   border-collapse: separate;
@@ -259,7 +272,6 @@ label.sky-label {
   }
 }
 
-// Animations 
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -274,7 +286,6 @@ label.sky-label {
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 
-// Alert/Toast 
 .sky-alert {
   border-radius: 12px;
   padding: 0.8rem 1.2rem;
@@ -303,7 +314,6 @@ label.sky-label {
   }
 }
 
-// Spinner 
 .sky-spinner {
   display: inline-block;
   width: 2rem;
@@ -318,7 +328,6 @@ label.sky-label {
   to { transform: rotate(360deg); }
 }
 
-// Responsive helpers 
 .section-padding {
   padding: 3rem 0;
 }
@@ -337,7 +346,6 @@ label.sky-label {
   }
 }
 
-// SVG Icon
 .sky-icon {
   width: 1.2em;
   height: 1.2em;
@@ -351,7 +359,6 @@ label.sky-label {
   display: inline-block;
 }
 
-// Page header icon for page titles
 .page-header-icon {
   width: 1.6rem;
   height: 1.6rem;
@@ -360,7 +367,6 @@ label.sky-label {
   margin-right: 0.5rem;
 }
 
-// Inline SVG icon (for alerts, etc.)
 .sky-icon-inline {
   width: 1rem;
   height: 1rem;
@@ -368,7 +374,6 @@ label.sky-label {
   flex-shrink: 0;
 }
 
-// Fix sky-icon sizing for img tags
 .sky-icon {
   width: 1.2em;
   height: 1.2em;

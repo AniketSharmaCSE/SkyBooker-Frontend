@@ -5,8 +5,8 @@
 <div class="container section-padding" style="padding-top: 0;">
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
-      <div *ngIf="message" class="sky-alert sky-alert-success mb-3"><img src="assets/svgs/compass-svgrepo-com.svg" class="sky-icon" alt="check"> {{ message }}</div>
-      <div *ngIf="error" class="sky-alert sky-alert-error mb-3"><img src="assets/svgs/life-buoy-svgrepo-com.svg" class="sky-icon" alt="warning"> {{ error }}</div>
+      <div *ngIf="message" class="sky-alert sky-alert-success mb-3"><img src="/assets/svgs/compass-svgrepo-com.svg" class="sky-icon" alt="check"> {{ message }}</div>
+      <div *ngIf="error" class="sky-alert sky-alert-error mb-3"><img src="/assets/svgs/life-buoy-svgrepo-com.svg" class="sky-icon" alt="warning"> {{ error }}</div>
 
       <div class="sky-card fade-in-up">
         <form (ngSubmit)="submit()">
@@ -39,20 +39,20 @@
               <input type="text" class="sky-input" [(ngModel)]="form.airline" name="airline" placeholder="e.g. SkyBooker Express" required>
             </div>
             <div class="col-md-6">
-              <label class="sky-label">Comfort Premium (₹)</label>
-              <input type="number" class="sky-input" [(ngModel)]="form.comfortPremium" name="comfortPremium" placeholder="100" required>
+              <label class="sky-label">Comfort Premium (Rs)</label>
+              <input type="number" min="0" class="sky-input" [(ngModel)]="form.comfortPremium" name="comfortPremium" placeholder="100" required>
             </div>
             <div class="col-md-6">
-              <label class="sky-label">Price (₹)</label>
-              <input type="number" class="sky-input" [(ngModel)]="form.price" name="price" placeholder="4500" required>
+              <label class="sky-label">Price (Rs)</label>
+              <input type="number" min="1" class="sky-input" [(ngModel)]="form.price" name="price" placeholder="4500" required>
             </div>
             <div class="col-md-6">
               <label class="sky-label">Total Seats</label>
-              <input type="number" class="sky-input" [(ngModel)]="form.totalSeats" name="totalSeats" placeholder="180" required>
+              <input type="number" min="1" step="1" class="sky-input" [(ngModel)]="form.totalSeats" name="totalSeats" placeholder="180" required>
             </div>
             <div class="col-12">
               <button type="submit" class="btn-sky w-100 py-3" [disabled]="loading">
-                {{ loading ? 'Adding...' : 'Add Flight →' }}
+                {{ loading ? 'Adding...' : 'Add Flight ->' }}
               </button>
             </div>
           </div>

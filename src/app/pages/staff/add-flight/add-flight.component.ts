@@ -34,9 +34,27 @@ export class AddFlightComponent {
   submit(): void {
     this.message = '';
     this.error = '';
-    this.loading = true;
+    const validationError = this.validateForm();
+    if (validationError) {
+      this.error = validationError;
+      return;
+    }
 
-    this.flightService.addFlight(this.form).subscribe({
+    this.loading = true;
+    const payload: AddFlightRequest = {
+      ...this.form,
+      flightNumber: this.form.flightNumber.trim(),
+      origin: this.form.origin.trim(),
+      destination: this.form.destination.trim(),
+      airline: this.form.airline.trim() || 'SkyBooker Express',
+      departureTime: new Date(this.form.departureTime).toISOString(),
+      arrivalTime: new Date(this.form.arrivalTime).toISOString(),
+      price: Number(this.form.price),
+      totalSeats: Number(this.form.totalSeats),
+      comfortPremium: Number(this.form.comfortPremium)
+    };
+
+    this.flightService.addFlight(payload).subscribe({
       next: (res) => {
         this.message = `Flight ${res.flightNumber} added successfully! (ID: ${res.id})`;
         this.loading = false;
@@ -47,5 +65,44 @@ export class AddFlightComponent {
         this.loading = false;
       }
     });
+  }
+
+  private validateForm(): string {
+    const requiredFields = [
+      this.form.flightNumber,
+      this.form.origin,
+      this.form.destination,
+      this.form.departureTime,
+      this.form.arrivalTime
+    ];
+    if (requiredFields.some(value => !value?.toString().trim())) {
+      return 'Please fill all required flight details.';
+    }
+    if (this.form.origin.trim().toLowerCase() === this.form.destination.trim().toLowerCase()) {
+      return 'Origin and destination cannot be the same.';
+    }
+
+    const departure = new Date(this.form.departureTime);
+    const arrival = new Date(this.form.arrivalTime);
+    if (Number.isNaN(departure.getTime()) || Number.isNaN(arrival.getTime())) {
+      return 'Enter valid departure and arrival times.';
+    }
+    if (departure <= new Date()) {
+      return 'Departure time must be in the future.';
+    }
+    if (departure >= arrival) {
+      return 'Departure time must be before arrival time.';
+    }
+    if (Number(this.form.price) <= 0) {
+      return 'Price must be greater than 0.';
+    }
+    if (!Number.isInteger(Number(this.form.totalSeats)) || Number(this.form.totalSeats) <= 0) {
+      return 'Total seats must be a whole number greater than 0.';
+    }
+    if (Number(this.form.comfortPremium) < 0) {
+      return 'Comfort premium cannot be negative.';
+    }
+
+    return '';
   }
 }

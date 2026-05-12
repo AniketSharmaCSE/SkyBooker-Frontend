@@ -1,1 +1,110 @@
-/* uses global styles */
+.control-card,
+.flight-picker {
+  height: 100%;
+}
+
+.panel-kicker {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sky-orange-dark);
+  margin-bottom: 0.65rem;
+}
+
+.panel-copy,
+.helper-copy {
+  color: var(--sky-text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.picker-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.flight-list {
+  display: grid;
+  gap: 0.9rem;
+  max-height: 34rem;
+  overflow: auto;
+  padding-right: 0.15rem;
+}
+
+.flight-option {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #ffffff, #fafafa);
+  border-radius: 14px;
+  padding: 1rem 1.05rem;
+  transition: all 0.2s ease;
+  color: var(--sky-text);
+}
+
+.flight-option:hover,
+.flight-option.selected {
+  border-color: rgba(255, 132, 56, 0.45);
+  box-shadow: 0 10px 24px rgba(21, 29, 52, 0.08);
+  transform: translateY(-1px);
+}
+
+.flight-option-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.flight-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 132, 56, 0.12);
+  color: var(--sky-orange-dark);
+  padding: 0.25rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.flight-id {
+  color: var(--sky-text-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.flight-route {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--sky-text);
+  margin-bottom: 0.3rem;
+}
+
+.flight-meta {
+  color: var(--sky-text-secondary);
+  font-size: 0.84rem;
+}
+
+.flight-list-empty {
+  min-height: 18rem;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: var(--sky-text-secondary);
+}
+
+@media (max-width: 991px) {
+  .picker-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .flight-list {
+    max-height: none;
+  }
+}
