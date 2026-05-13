@@ -1,31 +1,31 @@
 {
   "/auth": {
-    "target": "http://localhost:5006",
+    "target": "https://apigateway-q88c.onrender.com",
     "secure": false,
     "changeOrigin": true
   },
   "/flights": {
-    "target": "http://localhost:5006",
+    "target": "https://apigateway-q88c.onrender.com",
     "secure": false,
     "changeOrigin": true
   },
   "/seats": {
-    "target": "http://localhost:5006",
+    "target": "https://apigateway-q88c.onrender.com",
     "secure": false,
     "changeOrigin": true
   },
   "/bookings": {
-    "target": "http://localhost:5006",
+    "target": "https://apigateway-q88c.onrender.com",
     "secure": false,
     "changeOrigin": true
   },
   "/passengers": {
-    "target": "http://localhost:5006",
+    "target": "https://apigateway-q88c.onrender.com",
     "secure": false,
     "changeOrigin": true
   },
   "/notifications": {
-    "target": "http://localhost:5006",
+    "target": "https://apigateway-q88c.onrender.com",
     "secure": false,
     "changeOrigin": true
   }
